@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Leads Dashboard</title>
+<style>
+body { background:#020617; color:white; font-family:Arial }
+table { width:100%; margin-top:20px }
+td,th { padding:10px; border-bottom:1px solid #333 }
+</style>
+</head>
+
+<body>
+
+<h2>Leads Dashboard</h2>
+
+<table id="table">
+<tr>
+<th>Name</th>
+<th>Phone</th>
+<th>Time</th>
+</tr>
+</table>
+
+<script>
+fetch("/leads")
+.then(res => res.json())
+.then(data => {
+  const table = document.getElementById("table");
+
+  data.forEach(lead => {
+    table.innerHTML += `
+      <tr>
+        <td>${lead.name}</td>
+        <td>${lead.phone}</td>
+        <td>${lead.time}</td>
+      </tr>
+    `;
+  });
+});
+</script>
+
+</body>
+</html>
