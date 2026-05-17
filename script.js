@@ -275,7 +275,7 @@ function initLeadForm() {
     return;
   }
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const formData = new FormData(form);
@@ -296,6 +296,24 @@ Type: ${data.type}
 Website: ${data.website}
 Revenue: ${data.revenue}
 Budget: ${data.budget}`;
+
+    try {
+      const response = await fetch("/lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        console.warn("Lead could not be saved:", result.message);
+      }
+    } catch (error) {
+      console.warn("Lead capture request failed:", error.message);
+    }
 
     window.location.href =
       `https://wa.me/917015554342?text=${encodeURIComponent(message)}`;
